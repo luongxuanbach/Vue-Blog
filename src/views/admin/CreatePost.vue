@@ -20,13 +20,14 @@
 
 <script setup>
 
-import {reactive} from 'vue';
+import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { posts } from '@/data/posts'; // Assuming you have a posts.js file with post data
+import { usePosts } from '@/composables/usePosts';
 
+const { addPost } = usePosts();
 const router = useRouter();
-
 const form = reactive({
     title: '',
     content: ''
@@ -39,7 +40,9 @@ const handleSubmit = () => {
         content: form.content
     }
 
-    posts.push(newPost); // Add new post to the posts array
+    console.log('New Post:', newPost);
+     // Call the addPost function from usePosts to add the new post
+    addPost(newPost); // Add new post to the posts array
      // Reset form fields
     form.title = '';
     form.content = '';
