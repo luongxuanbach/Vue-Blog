@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Bài viết đầu tiên",
+      "content": "Đây là nội dung bài viết demo."
+    },
+    {
+      "id": 2,
+      "title": "Bài viết thứ hai",
+      "content": "Một bài viết khác để test."
+    }
+  ]
+}
