@@ -11,11 +11,24 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { posts } from '@/data/posts.js'
-const route = useRoute();
 
-const post = posts.find(p => p.id === parseInt(route.params.id));
+const route = useRoute();
+const post = ref(null);
+
+onMounted(async () => {
+    const res = await axios.get(`http://localhost:3000/posts/${route.params.id}`);
+    post.value = res.data || null;
+    if (!post.value) {
+        console.error('Bài viết không tồn tại hoặc đã bị xoá.');
+    }
+    else {
+        console.log('Bài viết đã tải thành công:', post.value);
+    }
+});
+
 </script>
 
 <style scoped>

@@ -1,11 +1,14 @@
 <template>
     <div class="post-list">
     <h1>📃 Danh sách bài viết</h1>
+    <router-link to="/posts/create" class="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">➕ Tạo bài viết mới</router-link>
     <div v-if="loading">Đang tải dữ liệu...</div>
     <div v-else>
       <div v-for="post in posts" :key="post.id" class="post-item">
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.content }}</p>
+        <router-link :to="`/post/${post.id}`">
+          <h2>{{ post.title }}</h2>
+          <p>{{ post.content }}</p>
+        </router-link>
       </div>
     </div>
   </div>
