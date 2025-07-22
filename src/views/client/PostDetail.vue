@@ -2,18 +2,18 @@
     <div class="container" v-if="post">
         <h1>{{ post.title }}</h1>
         <p>{{ post.content }}</p>
-        <router-link to="/">⬅ Quay lại trang chủ</router-link>
+        <router-link to="/posts">⬅ Quay lại trang chủ</router-link>
     </div>
     <div v-else>
         <p>Không tìm thấy bài viết.</p>
-        <router-link to="/">⬅ Quay lại trang chủ</router-link>
+        <router-link to="/posts">⬅ Quay lại trang chủ</router-link>
     </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { posts } from '@/data/posts.js'
+import axios from 'axios';
 
 const route = useRoute();
 const post = ref(null);

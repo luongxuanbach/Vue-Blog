@@ -23,18 +23,9 @@
 import { reactive } from 'vue'
 import AdminLayout from '@/layouts/AdminLayout.vue'; 
 import { posts as sourcePosts } from '@/data/posts'; // Assuming you have a posts.js file with post data
+import { usePosts } from '@/composables/usePosts';
 
-const posts = reactive(sourcePosts);
-
-const deletePost = (id) => {
-    const index = posts.findIndex(post => post.id === id);
-    if (index !== -1) {
-        posts.splice(index, 1);
-        alert('Bài viết đã được xóa thành công!');
-    } else {
-        alert('Bài viết không tồn tại.');
-    }
-};
+const { posts, deletePost } = usePosts()
 
 </script>
 

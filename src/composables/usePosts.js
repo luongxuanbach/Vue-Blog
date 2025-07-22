@@ -1,37 +1,56 @@
-import { reactive } from "vue";
+import { ref } from "vue";
+import axios from 'axios';
 
-export const posts = reactive([
-   { id: 1, title: 'Vue 3 là gì?', content: 'Vue 3 rất mạnh mẽ.' },
-   { id: 2, title: 'Composition API', content: 'Dễ tách logic, dễ test.' },
-   { id: 3, title: 'Vue Router', content: 'Quản lý điều hướng dễ dàng.' },
-]);
+const API_URL = 'http://localhost:3000/posts'
 
 export function usePosts() {
-    const getPostById = (id) => posts.find(p => p.id === Number(id));
+    const posts = ref([])
+    const loading = ref(false) 
 
-    const addPost = (post) => {
-        post.id = Date.now();
-        posts.push(post);
-        alert('Bài viết đã được thêm thành công!');
-    }
-
-    const updatePost = (id, updated) => {
-        const idx = posts.findIndex(p => p.id ===Number(id));
-        if (idx !== -1) {
-            posts[idx] = { ...posts[idx], ...updated }
+    const fetchPosts = async () => {
+        loading.value = true;
+        try {
+            const res = await axios.get(API_URL);
+            posts.value.push(...res.data);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        } finally {
+            loading.value = false;
         }
     }
 
-    const deletePost = (id) => {
-        const idx = posts.findIndex(p => p.id === Number(id));
-        if (idx !== -1) posts.splice(idx, 1);
+    const getPostById = async (id) => {
+        const post = posts.value.find(p => p.id === Number(id));
+        if (!post) {
+            const res = await axios.get(`${API_URL}/${id}`);
+            return res.data;
+        }
+        return post;
+    };
+
+    const addPost = async (post) => {
+        const res = await axios.post(API_URL, post);
+        posts.push(res.data);
+    }
+
+    const updatePost = async (id, updatedPost) => {
+        await axios.put(`${API_URL}/${id}`, updatedPost);
+        const index = posts.value.findIndex(p => p.id ===Number(id));
+        if (index !== -1) posts[index] = updatePost;
+    }
+
+    const deletePost = async (id) => {
+        await axios.delete(`${API_URL}/${id}`);
+        posts.value = posts.value.filter(p => p.id !== id);
     }
 
     return {
         posts,
-        getPostById,
+        loading,
         addPost,
         updatePost,
-        deletePost
+        deletePost,
+        fetchPosts,
+        getPostById
     };
 }

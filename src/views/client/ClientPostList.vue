@@ -9,29 +9,30 @@
           <h2>{{ post.title }}</h2>
           <p>{{ post.content }}</p>
         </router-link>
+        <router-link :to="`/posts/edit/${post.id}`" class="text-blue-600 hover:underline">✏️ Sửa</router-link>
+        <button @click="handleDeletePost(post.id)" class="text-red-600 hover:underline">🗑️ Xoá</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { onMounted } from 'vue';
+import { usePosts } from '@/composables/usePosts';
 
-const posts = ref([]);
-const loading = ref(true);
+const { posts, loading, fetchPosts, deletePost } = usePosts();
 
-onMounted(async () => {
-    try  {
-        const res = await axios.get('http://localhost:3000/posts');
-        posts.value = res.data;
-    } catch (error) {
-        console.error('Lỗi khi tải bài viết:', error);
+onMounted(() => {
+    fetchPosts();
+});
+
+
+const handleDeletePost = async (id) => {
+    if (confirm('Bạn có chắc chắn muốn xoá bài viết này?')) {
+        await deletePost(id);
+        alert('Bài viết đã được xoá thành công!');
     }
-    finally {
-        loading.value = false;
-    }
-})
+};
 
 </script>
 
