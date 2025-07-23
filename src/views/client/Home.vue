@@ -1,12 +1,13 @@
 <template>
-    <ClientLayout>
-        <v-container>
-            <h1 class="text-center">Chào mừng đến với Blog của tôi!</h1>
-            <p class="text-center">Đây là nơi tôi chia sẻ những suy nghĩ và ý tưởng của mình.</p>
-        </v-container>
-    </ClientLayout>  
+    <v-container class="mt-10">
+    <h1 class="text-h4 mb-6">Chào mừng đến với trang chủ!</h1>
+    <p>Đây là nội dung chính của trang chủ.</p>
+
+    <!-- Ví dụ hiển thị danh sách bài viết -->
+    <ClientPostList />
+  </v-container>
 </template>
 
 <script setup>
-import ClientLayout from '@/layouts/ClientLayout.vue'
+import ClientPostList from '@/views/client/ClientPostList.vue';
 </script>
