@@ -1,11 +1,11 @@
 <template>
-
     <v-app-bar app color="primary" dark>
-        <v-app-bar-title class="text-h6">My Blog</v-app-bar-title>
+        <v-app-bar-title class="text-h6">Bcommy</v-app-bar-title>
         <v-spacer />
         <v-btn to="/" variant="text" class="text-white">Trang chủ</v-btn>
         <v-btn to="/posts" variant="text" class="text-white">Bài viết</v-btn>
         <v-btn to="/about" variant="text" class="text-white">Giới thiệu</v-btn>
+        <v-btn to="/login" variant="text" class="text-white">Đăng nhập</v-btn>
     </v-app-bar>
 </template>
 
