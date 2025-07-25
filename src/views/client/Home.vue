@@ -1,35 +1,67 @@
 <template>
-  <v-container class="mt-5">
-    <h1 class="text-h4 mb-6">Giải pháp toàn diện cho Ecommerce</h1>
-    <v-parallax src="https://blog.dktcdn.net/files/web-crawler-la-gi-4.png"></v-parallax>
-
-    <v-row>
-      <v-col cols="12" md="12" class="mt-10 text-center">
-        <h2 class="text-h5 ">Features</h2>
-        <p>Save thousands to millions of bucks by using single tool for different amazing and great useful admin</p>
-        <v-col cols="12" md="4" class="text-center">
-          <v-icon large>mdi-account-multiple</v-icon>
-          <h3>Quản lý người dùng</h3>
-          <p>Quản lý người dùng dễ dàng với các tính năng như đăng ký, đăng nhập và phân quyền.</p>
-        </v-col>
-        <v-col cols="12" md="4" class="text-center">
-          <v-icon large>mdi-file-document</v-icon>
-          <h3>Quản lý bài viết</h3>
-          <p>Thêm, sửa, xoá bài viết một cách nhanh chóng và dễ dàng.</p>
-        </v-col>
-        <v-col cols="12" md="4" class="text-center">
-          <v-icon large>mdi-chart-bar</v-icon>
-          <h3>Báo cáo thống kê</h3>
-          <p>Xem báo cáo và thống kê về người dùng, bài viết và hoạt động trên trang.</p>
-        </v-col>
+  <v-container class="py-12">
+    <!-- 🎯 Hero Section -->
+    <v-row align="center" justify="center" class="mb-12">
+      <v-col cols="12" md="6" class="text-center text-md-start">
+        <h1 class="text-h2 font-weight-bold mb-4">
+          Welcome to Our Blog
+        </h1>
+        <p class="text-subtitle-1 mb-6">
+          Explore tips, stories, and insights written by passionate creators.
+        </p>
+        <v-btn color="primary" size="large" @click="goToCreate">
+          ✍️ Create New Post
+        </v-btn>
       </v-col>
+
+      <v-col cols="12" md="6">
+        <v-img src="https://cdn.vuetifyjs.com/images/logos/v.png" alt="Blog Hero" class="rounded-lg" height="300" cover />
+      </v-col>
+    </v-row>
+
+    <!-- 📚 Posts Section -->
+    <v-row class="mb-4">
+      <v-col cols="12">
+        <h2 class="text-h4 font-weight-medium mb-6">📚 Latest Posts</h2>
+      </v-col>
+
+      <PostCard v-for="post in posts" :key="post.id" :post="post" />
+
+      <v-row justify="center" class="mt-6">
+        <v-col cols="auto">
+          <v-btn color="primary" variant="elevated" @click="goToPosts">
+            See mores
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-import { VContainer } from 'vuetify/components';
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import PostCard from '@/components/PostCard.vue'
+import { usePosts } from '@/composables/usePosts'
 
+const router = useRouter()
+const { posts, fetchPosts } = usePosts()
+
+onMounted(async () => {
+  try {
+    const allPosts = await fetchPosts() // fetchPosts() nên return mảng bài viết
+    posts.value = allPosts.slice(0, 8)   // Gán lại 6 bài mới nhất vào posts.value
+  } catch (error) {
+    console.error('Failed to fetch posts:', error)
+  }
+})
+const goToPosts = () => {
+  router.push('/posts')
+}
+
+const goToCreate = () => {
+  router.push('/create')
+}
 </script>
 
 <style scoped>
