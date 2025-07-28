@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="3" class="pa-6 rounded-xl">
-    <v-card-title class="text-center text-h5 font-weight-bold mb-4">
+    <v-card-title class="text-center text-h5 font-weight-bold mb-4 blue--text text--darken-2">
       ✍️ Tạo bài viết mới
     </v-card-title>
 
@@ -59,7 +59,7 @@ const submitPost = async () => {
       title: form.value.title,
       excerpt: form.value.excerpt,
       content: form.value.content,
-      image: form.value.thumbnailFile
+      thumbnail: form.value.thumbnailFile
     })
 
     alert('✅ Đăng bài thành công!')

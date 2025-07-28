@@ -55,16 +55,17 @@ export function usePosts() {
 
       // Nếu có file ảnh thì upload trước
       let imageUrl = "";
-      if (postData.image instanceof File) {
-        imageUrl = await uploadImageToCloudinary(postData.image);
+      if (postData.thumbnail instanceof File) {
+        imageUrl = await uploadImageToCloudinary(postData.thumbnail);
       } else {
-        imageUrl = postData.image; // có thể là URL đã có sẵn
+        imageUrl = postData.thumbnail; // có thể là URL đã có sẵn
       }
 
       const newPost = {
         title: postData.title,
         content: postData.content,
-        image: imageUrl,
+        excerpt: postData.excerpt,
+        thumbnail: imageUrl,
         createdAt: new Date().toISOString(),
       };
 

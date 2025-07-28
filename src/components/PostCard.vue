@@ -41,6 +41,7 @@ const props = defineProps({
 const router = useRouter()
 
 const goToDetail = () => {
+  console.log('Navigating to post detail:', props.post.id)
   router.push(`/posts/${props.post.id}`)
 }
 

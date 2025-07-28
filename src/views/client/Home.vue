@@ -15,7 +15,7 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <v-img src="https://cdn.vuetifyjs.com/images/logos/v.png" alt="Blog Hero" class="rounded-lg" height="300" cover />
+        <v-img src="https://chonweb.vn/hsc_content/hsc_up_dinhkem/1625816574.png" alt="Blog Hero" class="rounded-lg" height="300" cover />
       </v-col>
     </v-row>
 
@@ -27,13 +27,11 @@
 
       <PostCard v-for="post in posts" :key="post.id" :post="post" />
 
-      <v-row justify="center" class="mt-6">
-        <v-col cols="auto">
-          <v-btn color="primary" variant="elevated" @click="goToPosts">
-            See mores
-          </v-btn>
-        </v-col>
-      </v-row>
+      <v-col cols="12" class="text-center mt-6">
+        <v-btn color="primary" @click="goToPosts">
+          See More
+        </v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>

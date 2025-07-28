@@ -5,9 +5,9 @@ import ClientPostCreate from '@/views/client/ClientPostCreate.vue';
 import ClientPostEdit from '@/views/client/ClientPostEdit.vue';
 
 export default [
-    { path: '/', component: Home },
-    { path: '/post/:id', component: PostDetail, props: true },
-    { path: '/posts', component: ClientPostList },
+    { path: '/', name: 'Home', component: Home },
+    { path: '/posts/:id', name: 'PostDetail', component: PostDetail, props: true },
+    { path: '/posts', name: 'ClientPostList', component: ClientPostList },
     { path: '/posts/create', name: 'ClientPostCreate', component: ClientPostCreate },
     { path: '/posts/edit/:id', name: 'ClientPostEdit', component: ClientPostEdit },
 ]
