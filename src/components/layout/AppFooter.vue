@@ -2,7 +2,7 @@
   <v-footer class="bg-grey-lighten-3 text-center py-4" app>
     <v-container>
       <span class="text-grey-darken-1">
-        © {{ new Date().getFullYear() }} YourCompanyName. All rights reserved.
+        © {{ new Date().getFullYear() }} Bcommy. All rights reserved.
       </span>
     </v-container>
   </v-footer>

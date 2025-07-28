@@ -1,58 +1,101 @@
 import { ref } from "vue";
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:3000/posts'
+const API_URL = "http://localhost:3000/posts";
 
 export function usePosts() {
-    const posts = ref([])
-    const loading = ref(false) 
+  const posts = ref([]);
+  const loading = ref(false);
 
-    const fetchPosts = async () => {
-        loading.value = true;
-        try {
-            const res = await axios.get(API_URL);
-            posts.value.push(...res.data);
-            return res.data;
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-            return [];
-        } finally {
-            loading.value = false;
-        }
+  const fetchPosts = async () => {
+    loading.value = true;
+    try {
+      const res = await axios.get(API_URL);
+      posts.value.push(...res.data);
+      return res.data;
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      return [];
+    } finally {
+      loading.value = false;
     }
+  };
 
-    const getPostById = async (id) => {
-        const post = posts.value.find(p => p.id === Number(id));
-        if (!post) {
-            const res = await axios.get(`${API_URL}/${id}`);
-            return res.data;
-        }
-        return post;
-    };
-
-    const addPost = async (post) => {
-        const res = await axios.post(API_URL, post);
-        posts.push(res.data);
+  const getPostById = async (id) => {
+    const post = posts.value.find((p) => p.id === Number(id));
+    if (!post) {
+      const res = await axios.get(`${API_URL}/${id}`);
+      return res.data;
     }
+    return post;
+  };
 
-    const updatePost = async (id, updatedPost) => {
-        await axios.put(`${API_URL}/${id}`, updatedPost);
-        const index = posts.value.findIndex(p => p.id ===Number(id));
-        if (index !== -1) posts[index] = updatePost;
+  // Function to upload image to Cloudinary
+  const uploadImageToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "Bcommy");
+    formData.append("cloud_name", "dardcocuk");
+
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dardcocuk/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const data = await res.json();
+    return data.secure_url;
+  };
+
+  const addPost = async (postData) => {
+    try {
+      loading.value = true;
+
+      // Nếu có file ảnh thì upload trước
+      let imageUrl = "";
+      if (postData.image instanceof File) {
+        imageUrl = await uploadImageToCloudinary(postData.image);
+      } else {
+        imageUrl = postData.image; // có thể là URL đã có sẵn
+      }
+
+      const newPost = {
+        title: postData.title,
+        content: postData.content,
+        image: imageUrl,
+        createdAt: new Date().toISOString(),
+      };
+
+      const res = await axios.post(API_URL, newPost);
+      posts.value.unshift(res.data);
+      return res.data;
+    } catch (error) {
+      console.error("Error adding post:", error);
+    } finally {
+      loading.value = false;
     }
+  };
 
-    const deletePost = async (id) => {
-        await axios.delete(`${API_URL}/${id}`);
-        posts.value = posts.value.filter(p => p.id !== id);
-    }
+  const updatePost = async (id, updatedPost) => {
+    await axios.put(`${API_URL}/${id}`, updatedPost);
+    const index = posts.value.findIndex((p) => p.id === Number(id));
+    if (index !== -1) posts[index] = updatePost;
+  };
 
-    return {
-        posts,
-        loading,
-        addPost,
-        updatePost,
-        deletePost,
-        fetchPosts,
-        getPostById
-    };
+  const deletePost = async (id) => {
+    await axios.delete(`${API_URL}/${id}`);
+    posts.value = posts.value.filter((p) => p.id !== id);
+  };
+
+  return {
+    posts,
+    loading,
+    addPost,
+    updatePost,
+    deletePost,
+    fetchPosts,
+    getPostById,
+  };
 }

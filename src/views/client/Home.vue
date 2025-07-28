@@ -60,7 +60,7 @@ const goToPosts = () => {
 }
 
 const goToCreate = () => {
-  router.push('/create')
+  router.push('/posts/create')
 }
 </script>
 

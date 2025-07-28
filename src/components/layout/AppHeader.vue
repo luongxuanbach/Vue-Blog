@@ -4,7 +4,9 @@
             <v-row align="center" justify="space-between" no-gutters>
                 <!-- Logo -->
                 <v-col cols="auto">
-                    <v-img :src=logoUrl alt="Logo" width="120" contain></v-img>
+                    <router-link to="/">
+                        <v-img :src="logoUrl" alt="Logo" width="120" contain></v-img>
+                    </router-link>
                 </v-col>
 
                 <!-- Navigation -->
