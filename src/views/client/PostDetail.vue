@@ -3,7 +3,7 @@
 
   <v-card v-else-if="post" elevation="4" class="pa-6 rounded-xl">
     <!-- Breadcrumbs -->
-    <v-breadcrumbs
+    <!-- <v-breadcrumbs
       class="mb-6 px-4 py-2 bg-grey-lighten-4 rounded-lg"
       divider=">"
     >
@@ -19,7 +19,7 @@
         <v-icon start icon="mdi-note-text-outline" class="me-1" />
         {{ post?.title || 'Đang tải...' }}
       </v-breadcrumbs-item>
-    </v-breadcrumbs>
+    </v-breadcrumbs> -->
 
     <!-- Thumbnail -->
     <v-img
