@@ -14,7 +14,13 @@
                     <v-btn to="/" variant="text" class="text-white">Trang chủ</v-btn>
                     <v-btn to="/posts" variant="text" class="text-white">Bài viết</v-btn>
                     <v-btn to="/about" variant="text" class="text-white">Giới thiệu</v-btn>
-                    <v-btn to="/login" variant="text" class="text-white">Đăng nhập</v-btn>
+                    <template v-if="isAuthenticated">
+                        <span class="text-white mr-2">👋 Xin chào, <strong>{{ user?.name }}</strong></span>
+                        <v-btn @click="handleLogout" variant="text" class="text-white">Đăng xuất</v-btn>
+                    </template>
+                    <template v-else>
+                        <v-btn to="/login" variant="text" class="text-white">Đăng nhập</v-btn>
+                    </template>
                 </v-col>
             </v-row>
         </v-container>
@@ -22,10 +28,17 @@
 </template>
 
 <script setup>
-import { VAppBar, VBtn, VImg, VContainer, VRow, VCol } from 'vuetify/components';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 import logoUrl from '@/assets/logo.png'
+import { useAuth } from '@/composables/useAuth';
+
+const { isAuthenticated, logout } = useAuth();
+
+const handleLogout = async () => {
+    await logout()
+    router.push('/login')
+}
 
 </script>
 

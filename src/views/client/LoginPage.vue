@@ -18,9 +18,12 @@
                     </v-btn>
                 </div>
 
-                <v-btn type="submit" block color="primary" class="text-white font-weight-bold" size="large" rounded="lg">
+                <v-btn type="submit" block color="primary" class="text-white font-weight-bold" size="large" rounded="lg"
+                    :loading="loading" prepend-icon="mdi-login">
                     Log In
                 </v-btn>
+
+                <v-alert v-if="error" type="error" class="mt-4">{{ error }}</v-alert>
             </v-form>
 
             <div class="mt-6 text-body-2">
@@ -37,18 +40,30 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import logoUrl from '@/assets/logo.png'
+import { useAuth } from '@/composables/useAuth'
+
+const { login } = useAuth()
+const router = useRouter()
 
 const email = ref('')
 const password = ref('')
+const error = ref('')
+const loading = ref(false)
 const rememberMe = ref(false)
 
-const router = useRouter()
 
-const handleLogin = () => {
-    // Xử lý logic đăng nhập ở đây
-    console.log({ email: email.value, password: password.value, rememberMe: rememberMe.value })
-    // Giả sử đăng nhập thành công → điều hướng
-    router.push('/dashboard')
+const handleLogin = async () => {
+    loading.value = true
+    error.value = ''
+
+    try {
+        await login({ email: email.value, password: password.value })
+        router.push('/')
+    } catch (err) {
+        error.value = err.message
+    } finally {
+        loading.value = false
+    }
 }
 
 const goToSignup = () => {
