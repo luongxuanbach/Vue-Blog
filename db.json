@@ -74,5 +74,28 @@
       "thumbnail": "https://res.cloudinary.com/dardcocuk/image/upload/v1753773060/wrrqqzmmiudixe12ydu0.jpg",
       "createdAt": "2025-07-29T07:11:01.324Z"
     }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@bcommy.com",
+      "password": "123456",
+      "name": "Admin",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "email": "user@example.com",
+      "password": "userpass",
+      "name": "User",
+      "role": "user"
+    },
+    {
+      "id": "3f77",
+      "name": "user  test",
+      "email": "user1@bcommy.com",
+      "password": "123456",
+      "role": "user"
+    }
   ]
 }
