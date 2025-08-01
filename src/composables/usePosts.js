@@ -6,12 +6,15 @@ const API_URL = "http://localhost:3000/posts";
 export function usePosts() {
   const posts = ref([]);
   const loading = ref(false);
+  const totalPosts = ref(0);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page = 1, limit = 8) => {
     loading.value = true;
     try {
-      const res = await axios.get(API_URL);
+      const res = await axios.get(`${API_URL}?_page=${page}&_limit=${limit}`);
       posts.value.push(...res.data);
+      totalPosts.value = parseInt(res.headers['x-total-count']) || 0
+      console.log("Total posts:", parseInt(res.headers['x-total-count']));
       return res.data;
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -98,5 +101,6 @@ export function usePosts() {
     deletePost,
     fetchPosts,
     getPostById,
+    totalPosts
   };
 }

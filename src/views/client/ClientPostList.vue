@@ -1,9 +1,11 @@
 <template>
-  <v-row>
-    <v-col cols="12 md-6 mb-4 text-center d-flex justify-space-between align-center">
-      <h1 class="text-h3 font-weight-bold mb-4">📄 Danh sách bài viết</h1>
+  <v-row class="mb-6 align-center justify-space-between">
+    <v-col cols="12" md="6">
+      <h1 class="text-h4 font-weight-bold">📄 Danh sách bài viết</h1>
+    </v-col>
+    <v-col cols="12" md="6" class="text-md-end text-center">
       <RouterLink to="/posts/create">
-        <v-btn color="primary" prepend-icon="mdi-plus" class="mb-4">
+        <v-btn color="primary" prepend-icon="mdi-plus">
           Tạo bài viết mới
         </v-btn>
       </RouterLink>
@@ -14,28 +16,30 @@
     <!-- 📚 Posts Section -->
     <v-row class="mb-4">
       <PostCard v-for="post in posts" :key="post.id" :post="post" />
+      <!-- Phân trang -->
+      <v-pagination v-model="page" :length="totalPages" :total-visible="5" color="primary" class="my-6" />
     </v-row>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { usePosts } from '@/composables/usePosts';
 import PostCard from '@/components/PostCard.vue';
 
-const { posts, loading, fetchPosts, deletePost } = usePosts();
+const { posts, loading, fetchPosts, totalPosts } = usePosts();
+const page = ref(1)
+const limit = 8
 
-onMounted(() => {
-  fetchPosts();
-});
+const totalPages = computed(() => Math.ceil(totalPosts.value / limit))
 
+const loadPosts = () => {
+  fetchPosts(page.value, limit)
+}
 
-const handleDeletePost = async (id) => {
-  if (confirm('Bạn có chắc chắn muốn xoá bài viết này?')) {
-    await deletePost(id);
-    alert('Bài viết đã được xoá thành công!');
-  }
-};
+onMounted(loadPosts)
+
+watch(page, loadPosts)
 
 </script>
 

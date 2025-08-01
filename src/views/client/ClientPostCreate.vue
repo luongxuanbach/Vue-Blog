@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="3" class="pa-6 rounded-xl">
-    <v-card-title class="text-center text-h5 font-weight-bold mb-4 blue--text text--darken-2">
+    <v-card-title class="text-center text-h5 font-weight-bold mb-4 ">
       ✍️ Tạo bài viết mới
     </v-card-title>
 

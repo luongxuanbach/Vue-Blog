@@ -74,7 +74,6 @@ onMounted(async () => {
 const post = computed(() => {
   const id = route.params.id
   const found = posts.value.find(p => p._id === id || p.id === id)
-  console.log('🔍 Found post:', found)
   return found
 })
 
