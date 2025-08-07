@@ -1,7 +1,4 @@
-// server.js
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const jsonServer = require('json-server'); // 👈 dùng require để load CJS module
+import jsonServer from 'json-server';
 
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
