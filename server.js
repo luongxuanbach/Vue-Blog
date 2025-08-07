@@ -5,7 +5,7 @@ const jsonServer = require('json-server'); // 👈 dùng require để load CJS 
 
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
-const middlewares = jsonServer.defaults();
+const middlewares = jsonServer.defaults({ noCors: true })
 
 server.use(middlewares);
 

@@ -12,6 +12,7 @@ export function usePosts() {
     loading.value = true;
     try {
       const res = await axios.get(`${API_URL}?_page=${page}&_limit=${limit}`);
+      console.log('Header keys:', res.headers['x-total-count']);
       posts.value.push(...res.data);
       totalPosts.value = parseInt(res.headers['x-total-count']) || 0
       console.log("Total posts:", parseInt(res.headers['x-total-count']));
