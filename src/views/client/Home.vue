@@ -33,6 +33,18 @@
         </v-btn>
       </v-col>
     </v-row>
+
+    <v-row class="mb-4">
+      <v-col cols="12">
+        <h2 class="text-h4 font-weight-medium mb-6">✍️ Create New Post</h2>
+      </v-col>
+
+      <v-col cols="12" class="text-center">
+        <v-btn color="primary" @click="goToCreate">
+          Create New Post
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

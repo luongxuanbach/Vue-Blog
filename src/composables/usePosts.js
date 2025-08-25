@@ -11,7 +11,11 @@ export function usePosts() {
   const fetchPosts = async (page = 1, limit = 8) => {
     loading.value = true;
     try {
-      const res = await axios.get(`${API_URL}?_page=${page}&_limit=${limit}`);
+      const res = await axios.get(`${API_URL}?_page=${page}&_limit=${limit}`, {
+        headers: {
+          Accept: 'application/json'
+        }
+      })
       console.log('Header keys:', res.headers['x-total-count']);
       posts.value.push(...res.data);
       totalPosts.value = parseInt(res.headers['x-total-count']) || 0
