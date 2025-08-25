@@ -9,16 +9,8 @@
           </router-link>
         </v-col>
 
-<<<<<<< HEAD
         <!-- Desktop Navigation -->
         <v-col cols="auto" class="d-none d-md-flex align-center">
-=======
-        <!-- Navigation desktop -->
-        <v-col
-          cols="auto"
-          class="d-none d-md-flex align-center"
-        >
->>>>>>> d0eb604e4114057ea39b0227f937c2aa3c51c9aa
           <v-btn to="/" variant="text" class="text-white" exact>Trang chủ</v-btn>
           <v-btn to="/posts" variant="text" class="text-white">Bài viết</v-btn>
           <v-btn to="/about" variant="text" class="text-white">Giới thiệu</v-btn>
@@ -41,36 +33,9 @@
           </v-avatar>
         </v-col>
 
-<<<<<<< HEAD
         <!-- Mobile Menu Button -->
         <v-col cols="auto" class="d-flex d-md-none">
           <v-app-bar-nav-icon @click="drawer = !drawer" />
-=======
-        <!-- Navigation mobile -->
-        <v-col
-          cols="auto"
-          class="d-flex d-md-none"
-        >
-          <v-menu
-            location="bottom end"
-            transition="scale-transition"
-          >
-            <template #activator="{ props }">
-              <v-btn icon v-bind="props">
-                <v-icon>mdi-menu</v-icon>
-              </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item to="/" exact>Trang chủ</v-list-item>
-              <v-list-item to="/posts">Bài viết</v-list-item>
-              <v-list-item to="/about">Giới thiệu</v-list-item>
-              <v-list-item v-if="isAdmin" to="/admin">Quản trị</v-list-item>
-              <v-list-item v-if="!isAuthenticated" to="/login">Đăng nhập</v-list-item>
-              <v-list-item v-if="isAuthenticated" @click="logout">Đăng xuất</v-list-item>
-            </v-list>
-          </v-menu>
->>>>>>> d0eb604e4114057ea39b0227f937c2aa3c51c9aa
         </v-col>
       </v-row>
     </v-container>
