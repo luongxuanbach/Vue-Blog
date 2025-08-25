@@ -19,6 +19,13 @@ const vuetify = createVuetify({
     aliases,
     sets: { mdi },
   },
+  defaults: {
+    global: {
+      style: {
+        fontFamily: 'Inter, sans-serif',
+      },
+    },
+  },
 })
 
 const app = createApp(App);
