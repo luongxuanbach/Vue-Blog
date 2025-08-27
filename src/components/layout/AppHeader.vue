@@ -14,12 +14,12 @@
           <v-btn to="/" variant="text" class="text-white" exact>Trang chủ</v-btn>
           <v-btn to="/posts" variant="text" class="text-white">Bài viết</v-btn>
           <v-btn to="/about" variant="text" class="text-white">Giới thiệu</v-btn>
-          <v-btn v-if="isAdmin" to="/admin" variant="text" class="text-white">Quản trị</v-btn>
+          <v-btn v-if="auth.isAdmin" to="/admin" variant="text" class="text-white">Quản trị</v-btn>
 
-          <v-btn v-if="!isAuthenticated" to="/login" variant="text" class="text-white">
+          <v-btn v-if="!auth.isAuthenticated" to="/login" variant="text" class="text-white">
             Đăng nhập
           </v-btn>
-          <v-btn v-if="isAuthenticated" @click="logout" variant="text" class="text-white">
+          <v-btn v-if="auth.isAuthenticated" @click="auth.logout" variant="text" class="text-white">
             Đăng xuất
           </v-btn>
 
@@ -48,19 +48,23 @@
       <v-list-item to="/posts" @click="drawer = false">Bài viết</v-list-item>
       <v-list-item to="/about" @click="drawer = false">Giới thiệu</v-list-item>
       <v-list-item v-if="isAdmin" to="/admin" @click="drawer = false">Quản trị</v-list-item>
-      <v-list-item v-if="!isAuthenticated" to="/login" @click="drawer = false">Đăng nhập</v-list-item>
-      <v-list-item v-if="isAuthenticated" @click="logout">Đăng xuất</v-list-item>
+      <v-list-item v-if="!auth.isAuthenticated" to="/login" @click="drawer = false">Đăng nhập</v-list-item>
+      <v-list-item v-if="auth.isAuthenticated" @click="auth.logout">Đăng xuất</v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script setup>
 import logoUrl from '@/assets/logo.png'
-import { useAuth } from '@/composables/useAuth'
-import { ref } from 'vue'
+import { useAuthStore  } from '@/stores/authStore'
+import { ref, computed  } from 'vue'
 
-const { user, logout, isAuthenticated, isAdmin } = useAuth()
+const auth = useAuthStore ()
 const drawer = ref(false)
+const isAuthenticated = computed(() => auth.isAuthenticated)
+// const isAdmin = computed(() => auth.isAdmin)
+const user = computed(() => auth.user)
+
 </script>
 
 <style scoped>

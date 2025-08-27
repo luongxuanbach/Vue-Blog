@@ -7,49 +7,21 @@
       <h2 class="font-weight-bold mb-6">Đăng nhập tài khoản</h2>
 
       <v-form @submit.prevent="handleLogin">
-        <v-text-field
-          v-model="email"
-          label="Email"
-          prepend-inner-icon="mdi-email"
-          variant="outlined"
-          color="primary"
-          class="mb-4"
-          required
-        />
+        <v-text-field v-model="email" label="Email" prepend-inner-icon="mdi-email" variant="outlined" color="primary"
+          class="mb-4" required />
 
-        <v-text-field
-          v-model="password"
-          label="Mật khẩu"
-          type="password"
-          prepend-inner-icon="mdi-lock"
-          variant="outlined"
-          color="primary"
-          class="mb-4"
-          required
-        />
+        <v-text-field v-model="password" label="Mật khẩu" type="password" prepend-inner-icon="mdi-lock"
+          variant="outlined" color="primary" class="mb-4" required />
 
         <div class="d-flex justify-space-between align-center mb-4">
-          <v-checkbox
-            v-model="rememberMe"
-            label="Ghi nhớ tôi"
-            hide-details
-            density="compact"
-          />
+          <v-checkbox v-model="rememberMe" label="Ghi nhớ tôi" hide-details density="compact" />
           <v-btn variant="text" size="small" class="text-blue" @click="goToForgotPassword">
             Quên mật khẩu?
           </v-btn>
         </div>
 
-        <v-btn
-          type="submit"
-          block
-          color="primary"
-          class="text-white font-weight-bold"
-          size="large"
-          rounded="lg"
-          :loading="loading"
-          prepend-icon="mdi-login"
-        >
+        <v-btn type="submit" block color="primary" class="text-white font-weight-bold" size="large" rounded="lg"
+          :loading="loading" prepend-icon="mdi-login">
           Đăng nhập
         </v-btn>
 
@@ -72,28 +44,22 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import logoUrl from '@/assets/logo.png'
-import { useAuth } from '@/composables/useAuth'
+import { useAuthStore } from '@/stores/authStore'
 
-const { login } = useAuth()
 const router = useRouter()
+const auth = useAuthStore()
 
 const email = ref('')
 const password = ref('')
-const error = ref('')
-const loading = ref(false)
 const rememberMe = ref(false)
 
 const handleLogin = async () => {
-  loading.value = true
-  error.value = ''
-
   try {
-    await login({ email: email.value, password: password.value })
+    await auth.login({ email: email.value, password: password.value })
     router.push('/')
   } catch (err) {
-    error.value = err.message || 'Đăng nhập thất bại'
-  } finally {
-    loading.value = false
+    // Lỗi đã được set trong store, ở đây có thể log thêm nếu cần
+    console.error('Login failed:', err)
   }
 }
 
@@ -104,6 +70,7 @@ const goToSignup = () => {
 const goToForgotPassword = () => {
   alert('Chức năng đang phát triển...')
 }
+
 </script>
 
 <style scoped>

@@ -1,51 +1,38 @@
-import { ref, computed } from 'vue'
-import axios from 'axios'
-
-const savedUserStr = localStorage.getItem('user')
-const user = ref(savedUserStr && savedUserStr !== 'undefined' ? JSON.parse(savedUserStr) : null)
-
-const token = ref(localStorage.getItem('auth_token') || null)
+import axios from "axios";
+import { useAuthStore } from "../stores/authStore";
 
 export function useAuth() {
-    const login = async ({ email, password }) => {
+    const authStore = useAuthStore();
+
+    const login = async (email, password) => {
         try {
-            const res = await axios.get(`http://localhost:3000/users?email=${email}&password=${password}`)
-
-            if (res.data && res.data.length > 0) {
-                const foundUser = res.data[0]
-
-                user.value = foundUser
-                token.value = 'fake-token'
-
-                localStorage.setItem('auth_token', token.value)
-                localStorage.setItem('user', JSON.stringify(foundUser))
-
-                return true
-            } else {
-                throw new Error('Email hoặc mật khẩu không đúng.')
-            }
+            const res = await axios.post('/api/login', { email, password });
+            authStore.setUser(res.data.user, res.data.token);
+            return true
         } catch (error) {
-            console.error('Login error:', error)
-            throw new Error('Đăng nhập thất bại.')
+            console.error("Login error:", error);
+            return false
+        }
+    }
+
+    const register = async (name, email, password) => {
+        try {
+            const res = await axios.post('/api/auth/register', { name, email, password });
+            authStore.setUser(res.data.user, res.data.token);
+            return true
+        } catch (error) {
+            console.error("Registration error:", error);
+            return false
         }
     }
 
     const logout = () => {
-        token.value = null
-        user.value = null
-        localStorage.removeItem('auth_token')
-        localStorage.removeItem('user')
+        authStore.clearAuth();
     }
 
-    const isAuthenticated = computed(() => !!user.value)
-    const isAdmin = computed(() => user.value?.role === 'admin')
-
     return {
-        user,
-        token,
         login,
-        logout,
-        isAuthenticated,
-        isAdmin
+        register,
+        logout
     }
 }
